@@ -357,5 +357,5 @@ you will see migration complete
 Then run generate command
 
 ~~~
-npx prisam generate
+npx prisma generate
 ~~~
