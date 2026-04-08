@@ -359,3 +359,27 @@ Then run generate command
 ~~~
 npx prisma generate
 ~~~
+
+# 10 set up Instantiate Prisma Client
+
+create a src file. No need to create if already exist.
+
+inside src create this file
+~~~
+lib/prisma.ts
+~~~
+
+then inside this file write this
+
+~~~
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "../generated/prisma/client";
+
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaPg({ connectionString });
+const prisma = new PrismaClient({ adapter });
+
+export { prisma };
+~~~
