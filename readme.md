@@ -427,3 +427,31 @@ async function main() {
 
 main();
 ~~~
+
+
+# 13 now run your server using
+
+~~~
+npx tsx watch src/server.ts
+~~~
+
+# 14 try hello world using app.ts
+
+~~~
+app.get("/", (req, res) => {
+    res.send("Hello, World")
+})
+~~~
+
+full app.ts
+~~~
+import express from 'express'
+
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send("Hello, World")
+})
+
+export default app;
+~~~
