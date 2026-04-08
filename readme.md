@@ -383,3 +383,40 @@ const prisma = new PrismaClient({ adapter });
 
 export { prisma };
 ~~~
+
+fix your import {PrismaClient} file path like "../../generated/prisma/client"
+
+# 11 create a file called app.ts
+
+~~~]
+import express from 'express'
+
+const app = express();
+
+export default app;
+~~~
+
+# 12 setup your PORT in .env
+
+~~~
+PORT= 5000
+~~~
+
+
+# 12 create a file called server.ts
+
+~~~
+const PORT = process.env.PORT || 5000;
+
+async function main() {
+    try {
+        await prisma.$connect();
+        console.log("Connected to the database successfully")
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`)
+        })
+    } catch (error) {
+        console.error("An error occured", error)
+    }
+}
+~~~
