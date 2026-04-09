@@ -393,6 +393,9 @@ import express from 'express'
 
 const app = express();
 
+app.use(express.json());
+
+
 export default app;
 ~~~
 
@@ -446,6 +449,7 @@ app.get("/", (req, res) => {
 full app.ts
 ~~~
 import express from 'express'
+app.use(express.json());
 
 const app = express();
 
