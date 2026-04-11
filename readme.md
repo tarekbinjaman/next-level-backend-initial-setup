@@ -459,3 +459,17 @@ app.get("/", (req, res) => {
 
 export default app;
 ~~~
+
+
+# 15 create module
+
+- Create a module folder inside src folder
+- Inside module create another folder. name it your model name what you have created in schema.prisma.
+
+##  I have user model so I created module/user folder.
+
+In my user module i have created 3 file called
+
+- user.service.ts (1st create service)
+- user.controller.ts (2nd create controller)
+- user.route.ts (3rd create route)
