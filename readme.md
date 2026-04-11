@@ -473,3 +473,147 @@ In my user module i have created 3 file called
 - user.service.ts (1st create service)
 - user.controller.ts (2nd create controller)
 - user.route.ts (3rd create route)
+
+after that my codes will looks like this
+
+user.service.ts
+~~~
+import { prisma } from "../../lib/prisma";
+
+export const createuser = async (payload: any) => {
+  const result = await prisma.user.create({
+    data: payload,
+  });
+  return result;
+};
+
+export const getAllusers = async () => {
+  return await prisma.user.findMany();
+};
+
+export const getSingleUser = async (id: string) => {
+  return await prisma.user.findUnique({
+    where: { id },
+  });
+};
+
+export const delteUser = async (id: string) => {
+  return await prisma.user.delete({
+    where: { id },
+  });
+};
+
+~~~
+
+user.controller.ts
+~~~
+import { Request, Response } from "express";
+import * as UserService from "./user.service";
+
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.createuser(req.body);
+    res.status(201).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllUser = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.getAllusers();
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.getSingleUser(req.params.id as string);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.delteUser(req.params.id as string);
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+~~~
+
+user.routes.ts
+
+~~~
+import express from "express";
+import * as UserController from "./user.controller";
+
+const router = express.Router();
+
+router.post("/", UserController.createUser);
+router.get("/", UserController.getAllUser);
+router.get("/:id", UserController.getSingleUser);
+router.delete("/:id", UserController.deleteUser);
+
+export default router;
+~~~
+
+
+# 16 after creating module use in app.ts
+
+I have created user module so i imported user route as userRotes
+
+and use it 
+
+~~~
+import userRoutes from './module/user/user.route'
+app.use("/api/users", userRoutes);
+~~~
+
+after writing down this is how app.ts looks like
+
+~~~
+import express from 'express'
+import userRoutes from './module/user/user.route'
+
+const app = express();
+
+app.use(express.json());
+
+app.use("/api/users", userRoutes);
+
+app.get("/", (req, res) => {
+    res.send("Hello, World")
+})
+
+export default app;
+~~~
