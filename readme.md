@@ -617,3 +617,18 @@ app.get("/", (req, res) => {
 
 export default app;
 ~~~
+
+# 17 then use Thunder Client to test the api
+
+New Request > POST > put link - http://localhost:5000/api/users
+
+in body put your data 
+like this : 
+~~~
+{
+  "name": "Tarek",
+  "email": "tarek123@gmail.com",
+  "password": "123456",
+  "role": "STUDENT"
+}
+~~~
