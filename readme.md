@@ -479,10 +479,12 @@ after that my codes will looks like this
 user.service.ts
 ~~~
 import { prisma } from "../../lib/prisma";
+import bcrypt from "bcrypt";
 
 export const createuser = async (payload: any) => {
+  const hashPassword = await bcrypt.hash(payload.password, 10);
   const result = await prisma.user.create({
-    data: payload,
+    data: { ...payload, password: hashPassword },
   });
   return result;
 };
@@ -631,4 +633,53 @@ like this :
   "password": "123456",
   "role": "STUDENT"
 }
+~~~
+
+
+# 18 create jwt token in your power shell
+
+run this in your powershell
+~~~
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+~~~
+
+after runing this code in your powershell you will see this type of things 
+
+~~~
+b94ba8cc3d2e72aaab0d7cd3d9926b82592bceaef47368970b7c8bc09c1bb8479c076483947cafe5bfaac489c3ff5a8ffcad71ee57b52c404467e17981bca1ae
+~~~
+
+copy that and save in your .env file like this
+
+.env > 
+~~~
+JWT_SECRET=your_generated_secret_here
+~~~
+
+# 19 Install dotenv
+
+~~~
+npm install dotenv
+~~~
+
+when you try to access something from .env use like this
+
+~~~
+import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
+
+const app = express();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+console.log(JWT_SECRET); // now it works ✅
+~~~
+
+# 20 install package for password hashing and jwt-json web token
+
+~~~
+npm install bcrypt jsonwebtoken
+npm install -D @types/bcrypt @types/jsonwebtoken
 ~~~
